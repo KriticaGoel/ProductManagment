@@ -1,7 +1,6 @@
 package com.kritica.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
