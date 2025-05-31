@@ -28,5 +28,11 @@ public class ProductManagementExceptionHandler {
         });
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(APIException.class)
+    public ResponseEntity<String> apiException(APIException e) {
+        String message = e.getMessage();
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
 }
 

@@ -1,6 +1,8 @@
 package com.kritica.controller;
 
 import com.kritica.payload.CategoryDTO;
+import com.kritica.payload.CategoryResponse;
+import com.kritica.service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +13,16 @@ import java.util.List;
 @RequestMapping("/admin/category")
 public class CategoryController {
 
+    private CategoryService categoryService;
+
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
     //Get all Category
     @GetMapping("/")
-    public ResponseEntity<List<CategoryDTO>> getAllCategories(){
-
-        return null;
+    public ResponseEntity<CategoryResponse> getAllCategories(){
+       CategoryResponse response= categoryService.getAllCategories();
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
     //Create new Category
     @PostMapping("/")

@@ -1,6 +1,8 @@
 package com.kritica.model;
 
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.aspectj.bridge.IMessage;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,6 +17,8 @@ public class Category {
     @SequenceGenerator(name = "cat_seq_gen", sequenceName = "CAT_SEQ", initialValue = 1, allocationSize = 1)
     private Long id;
     @Column(name = "name")
+    @NotNull
+    //@Size(min=3, message="Category must contain at least 5 character")
     private String name;
     @Column(name = "description")
     private String description;
