@@ -25,9 +25,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponse getAllCategories() {
         List<Category> categories=categoryRepository.findAll();
-        if(categories.isEmpty()){
-            throw new APIException("No category created till now");
-        }
+//        if(categories.isEmpty()){
+//            throw new APIException("No category created till now");
+//        }
        // modelMapper
         List<CategoryDTO> categoryDTOS = categories.stream()
                 .map(category -> modelMapper.map(category, CategoryDTO.class)).toList();

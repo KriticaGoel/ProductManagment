@@ -1,5 +1,6 @@
 package com.kritica.controller;
 
+import com.kritica.exception.APIException;
 import com.kritica.payload.CategoryDTO;
 import com.kritica.payload.CategoryResponse;
 import com.kritica.service.CategoryService;
@@ -22,7 +23,10 @@ public class CategoryController {
     @GetMapping("/")
     public ResponseEntity<CategoryResponse> getAllCategories(){
        CategoryResponse response= categoryService.getAllCategories();
-        return new ResponseEntity<>(response,HttpStatus.OK);
+       if(response.getCategories().isEmpty()){
+           return ResponseEntity.noContent().build();
+       }
+        return ResponseEntity.ok(response);
     }
     //Create new Category
     @PostMapping("/")
