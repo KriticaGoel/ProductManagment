@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryDTO {
-    private Long id;
+
     @NotNull(message = "Category name cannot be null")
     @Size(min=3, message="Category must contain at least 3 character")
     private String name;

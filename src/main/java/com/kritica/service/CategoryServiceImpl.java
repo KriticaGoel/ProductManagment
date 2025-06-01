@@ -7,6 +7,7 @@ import com.kritica.payload.CategoryResponse;
 import com.kritica.repository.CategoryRepository;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -28,9 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponse getAllCategories() {
         List<Category> categories=categoryRepository.findAll();
-//        if(categories.isEmpty()){
-//            throw new APIException("No category created till now");
-//        }
+
        // modelMapper
         List<CategoryDTO> categoryDTOS = categories.stream()
                 .map(category -> modelMapper.map(category, CategoryDTO.class)).toList();
@@ -43,14 +42,24 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public String createNewCategory(@Valid CategoryDTO categoryDTO) {
+    public CategoryDTO createNewCategory(@Valid CategoryDTO categoryDTO) {
         Category category=modelMapper.map(categoryDTO,Category.class);
-        Category result = categoryRepository.save(category);
-        return "Category created successfully";
+        try {
+            Category result = categoryRepository.save(category);
+            return modelMapper.map(result,CategoryDTO.class);
+        }catch (DataIntegrityViolationException e){
+            throw new APIException("Category name "+categoryDTO.getName()+" already exists");
+        }catch (IllegalArgumentException e) {
+            throw new APIException("Invalid category data: " + e.getMessage());
+        }catch (Exception e) {
+            throw new APIException("Error creating category: " + e.getMessage());
+        }
     }
+
 
     @Override
     public String updateCategory(Long id, CategoryDTO categoryDTO) {
+
         return null;
     }
 
