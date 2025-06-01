@@ -1,5 +1,6 @@
 package com.kritica.exception;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -33,6 +34,12 @@ public class ProductManagementExceptionHandler {
     public ResponseEntity<String> apiException(APIException e) {
         String message = e.getMessage();
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> dataIntegrityViolationException(DataIntegrityViolationException e){
+        String message = e.getCause().getCause().getMessage();
+        return ResponseEntity.badRequest().body(message);
     }
 }
 
