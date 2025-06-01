@@ -10,7 +10,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "category", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"name","imageUrl"})})
+        @UniqueConstraint(columnNames = {"name"})})
 public class Category {
 
     @Id
@@ -19,9 +19,10 @@ public class Category {
     private Long id;
 
     @NotNull(message = "Category name cannot be null")
-    @Size(min=3, message="Category must contain at least 3 character")
+    @Size(min=3, max=20, message="Category must contain at least 3 character")
     @Column(name = "name")
     private String name;
+    @Size(max=150, message="Description must contain at most 150 character")
     @Column(name = "description")
     private String description;
     @Column(name = "image_url")
@@ -29,8 +30,10 @@ public class Category {
     @Column(name = "image_alt")
     private String imageAlt;
     @Column(name = "create_by")
+    @Size(max=20, message="Create by must contain at most 20 character")
     private String create_by;
     @Column(name = "update_by")
+    @Size(max=20, message="Update by must contain at most 20 character")
     private String update_by;
 
     @CreationTimestamp

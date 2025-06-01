@@ -32,7 +32,7 @@ public class CategoryController {
     //Create new Category
     //the validation will be triggered when the DTO is received by the controller ( on controller parameter) `@Valid`
     @PostMapping("/")
-    public ResponseEntity<String> createNewCategory(@Valid @RequestBody CategoryDTO categoryDTO){
+    public ResponseEntity<String> createNewCategory(@RequestBody CategoryDTO categoryDTO){
         String response = categoryService.createNewCategory(categoryDTO);
         return ResponseEntity.ok(response);
     }
