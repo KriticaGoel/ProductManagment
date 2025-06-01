@@ -1,5 +1,8 @@
 package com.kritica.payload;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryDTO {
     private Long id;
+    @NotNull(message = "Category name cannot be null")
+    @Size(min=3, message="Category must contain at least 3 character")
     private String name;
     private String description;
     private String imageUrl;

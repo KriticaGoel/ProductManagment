@@ -4,6 +4,7 @@ import com.kritica.exception.APIException;
 import com.kritica.payload.CategoryDTO;
 import com.kritica.payload.CategoryResponse;
 import com.kritica.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +30,9 @@ public class CategoryController {
         return ResponseEntity.ok(response);
     }
     //Create new Category
+    //the validation will be triggered when the DTO is received by the controller ( on controller parameter) `@Valid`
     @PostMapping("/")
-    public ResponseEntity<String> createNewCategory(@RequestBody CategoryDTO categoryDTO){
+    public ResponseEntity<String> createNewCategory(@Valid @RequestBody CategoryDTO categoryDTO){
         String response = categoryService.createNewCategory(categoryDTO);
         return ResponseEntity.ok(response);
     }

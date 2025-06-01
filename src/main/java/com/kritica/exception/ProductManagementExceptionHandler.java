@@ -17,7 +17,7 @@ public class ProductManagementExceptionHandler {
     //defining exception so that when ever exception
     //  occurred, spring boot handles it in the below-defined way
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String,String>> myMethodArgNotValidException(MethodArgumentNotValidException e) {
+    public ResponseEntity<Map<String,String>> handleValidations(MethodArgumentNotValidException e) {
 
         Map<String, String> response = new HashMap<>();
         e.getBindingResult().getAllErrors().forEach((error) -> {

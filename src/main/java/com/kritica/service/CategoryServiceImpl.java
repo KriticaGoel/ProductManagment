@@ -5,12 +5,15 @@ import com.kritica.model.Category;
 import com.kritica.payload.CategoryDTO;
 import com.kritica.payload.CategoryResponse;
 import com.kritica.repository.CategoryRepository;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Service
+@Validated
 public class CategoryServiceImpl implements CategoryService {
 
     private CategoryRepository categoryRepository;
@@ -40,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public String createNewCategory(CategoryDTO categoryDTO) {
+    public String createNewCategory(@Valid CategoryDTO categoryDTO) {
         Category category=modelMapper.map(categoryDTO,Category.class);
         Category result = categoryRepository.save(category);
         return "Category created successfully";

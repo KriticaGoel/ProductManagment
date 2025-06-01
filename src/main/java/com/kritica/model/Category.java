@@ -1,24 +1,26 @@
 package com.kritica.model;
 
 import jakarta.persistence.*;
-import org.antlr.v4.runtime.misc.NotNull;
-import org.aspectj.bridge.IMessage;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Date;
 
 @Entity
-@Table(name = "category")
+@Table(name = "category", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"name","imageUrl"})})
 public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cat_seq_gen")
     @SequenceGenerator(name = "cat_seq_gen", sequenceName = "CAT_SEQ", initialValue = 1, allocationSize = 1)
     private Long id;
+
+    @NotNull(message = "Category name cannot be null")
+    @Size(min=3, message="Category must contain at least 3 character")
     @Column(name = "name")
-    @NotNull
-    //@Size(min=3, message="Category must contain at least 5 character")
     private String name;
     @Column(name = "description")
     private String description;
@@ -26,9 +28,9 @@ public class Category {
     private String imageUrl;
     @Column(name = "image_alt")
     private String imageAlt;
-   @Column(name = "create_by")
+    @Column(name = "create_by")
     private String create_by;
-   @Column(name = "update_by")
+    @Column(name = "update_by")
     private String update_by;
 
     @CreationTimestamp
