@@ -31,8 +31,8 @@ public class CategoryController {
     //Create new Category
     @PostMapping("/")
     public ResponseEntity<String> createNewCategory(@RequestBody CategoryDTO categoryDTO){
-        return new ResponseEntity<>("Category Created Successfully", HttpStatus.CREATED
-        );
+        String response = categoryService.createNewCategory(categoryDTO);
+        return ResponseEntity.ok(response);
     }
 
     //Update Existing Category

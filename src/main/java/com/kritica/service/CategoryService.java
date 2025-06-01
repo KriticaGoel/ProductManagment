@@ -1,5 +1,6 @@
 package com.kritica.service;
 
+import com.kritica.model.Category;
 import com.kritica.payload.CategoryDTO;
 import com.kritica.payload.CategoryResponse;
 import org.springframework.http.ResponseEntity;

@@ -41,10 +41,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public String createNewCategory(CategoryDTO categoryDTO) {
-        Category category = new Category();
-        category.setName(categoryDTO.getName());
-        category.setDescription(categoryDTO.getDescription());
-        categoryRepository.save(category);
+        Category category=modelMapper.map(categoryDTO,Category.class);
+        Category result = categoryRepository.save(category);
         return "Category created successfully";
     }
 
