@@ -14,7 +14,7 @@ public interface CategoryService {
     CategoryDTO createNewCategory(@Valid CategoryDTO categoryDTO);
     CategoryDTO updateCategory(Long id, CategoryDTO categoryDTO);
     CategoryDTO deleteCategory(Long id);
-    CategoryResponse getCategoryByName(String name);
-    CategoryResponse getCategoryById(Long id);
+    CategoryDTO getCategoryByName(String name);
+    CategoryDTO getCategoryById(Long id);
 
 }

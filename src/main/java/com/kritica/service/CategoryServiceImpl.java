@@ -126,12 +126,21 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponse getCategoryByName(String name) {
-        return null;
+    public CategoryDTO getCategoryByName(String name) {
+        if(name==null){
+            throw new APIException("Category name cannot be null");
+        }
+        Category category= categoryRepository.findByName(name);
+
+        return modelMapper.map(category,CategoryDTO.class);
     }
 
     @Override
-    public CategoryResponse getCategoryById(Long id) {
-        return null;
+    public CategoryDTO getCategoryById(Long id) {
+        if(id==null){
+            throw new APIException("Category id cannot be null");
+        }
+        Category category= categoryRepository.findById(id).orElseThrow(()->new APIException("Category with id "+id+" not found"));
+        return modelMapper.map(category,CategoryDTO.class);
     }
 }

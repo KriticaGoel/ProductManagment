@@ -52,13 +52,13 @@ public class CategoryController {
     }
     //get Category by name
     @GetMapping("/name/{name}")
-    public ResponseEntity<List<CategoryDTO>> getCategoryByName(@PathVariable String name){
-        return null;
+    public ResponseEntity<CategoryDTO> getCategoryByName(@PathVariable String name){
+        return ResponseEntity.ok(categoryService.getCategoryByName(name));
     }
 
     //get Category by id
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id){
-        return null;
+        return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
 }
