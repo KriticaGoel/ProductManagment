@@ -9,8 +9,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Date;
 
 @Entity
-@Table(name = "category", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"name"})})
+@Table(name = "category",
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"name"})},
+        indexes ={
+            @Index(name = "idx_category_name", columnList = "name"),
+                @Index(name = "idx_category_created_date", columnList = "created_date")}
+        )
+
 public class Category {
 
     @Id

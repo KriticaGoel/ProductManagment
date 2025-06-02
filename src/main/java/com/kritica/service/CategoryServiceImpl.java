@@ -5,9 +5,12 @@ import com.kritica.model.Category;
 import com.kritica.payload.CategoryDTO;
 import com.kritica.payload.CategoryResponse;
 import com.kritica.repository.CategoryRepository;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.hibernate.StaleObjectStateException;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -17,9 +20,9 @@ import java.util.List;
 @Validated
 public class CategoryServiceImpl implements CategoryService {
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     public CategoryServiceImpl(ModelMapper modelMapper,CategoryRepository categoryRepository) {
         this.modelMapper = modelMapper;
@@ -58,10 +61,54 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public String updateCategory(Long id, CategoryDTO categoryDTO) {
-
-        return null;
+    public CategoryDTO updateCategory(Long id, CategoryDTO categoryDTO) {
+        try {
+            Category updatedCategory = modelMapper.map(categoryDTO, Category.class);
+            updatedCategory.setId(id);
+            Category savedCategory = categoryRepository.save(updatedCategory);
+            return modelMapper.map(savedCategory, CategoryDTO.class);
+        }catch(RuntimeException e){
+            throw new APIException("Error updating category: " + e.getMessage());
+        }
     }
+
+    @Transactional
+    public CategoryDTO updateCategoryv2(Long id, @Valid CategoryDTO categoryDTO) {
+
+
+        String newName = categoryDTO.getName().trim();
+        if (newName.isEmpty()) {
+            throw new APIException("Category name cannot be empty");
+        }
+
+        try {
+            return categoryRepository.findById(id)
+                    .map(existingCategory -> {
+                        // Don't update if nothing changed
+                        if (existingCategory.getName().equals(newName)) {
+                          //  log.debug("No changes detected for category {}", id);
+                            return modelMapper.map(existingCategory, CategoryDTO.class);
+                        }
+
+                        existingCategory.setName(newName);
+                       // log.info("Successfully updated category {} with new name: {}", id, newName);
+                        // No explicit save() needed due to @Transactional
+                        return modelMapper.map(existingCategory, CategoryDTO.class);
+                    })
+                    .orElseThrow(() -> {
+                       // log.error("Category not found with ID: {}", id);
+                        return new APIException(String.format("Category with ID %d not found", id));
+                    });
+
+        } catch (DataIntegrityViolationException e) {
+            //log.error("Failed to update category {} due to duplicate name: {}", id, newName);
+            throw new APIException(String.format("Category with name '%s' already exists", newName));
+        } catch (Exception e) {
+          //  log.error("Unexpected error while updating category {}: {}", id, e.getMessage());
+            throw new APIException("Error updating category: " + e.getMessage());
+        }
+    }
+
 
     @Override
     public String deleteCategory(Long id) {

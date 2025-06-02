@@ -32,18 +32,16 @@ public class CategoryController {
     //Create a new Category
     //the validation will be triggered when the DTO is received by the controller ( on controller parameter) `@Valid`
     @PostMapping("/")
-    public ResponseEntity<CategoryDTO> createNewCategory(@RequestBody CategoryDTO categoryDTO){
+    public ResponseEntity<CategoryDTO> createNewCategory(@Valid @RequestBody CategoryDTO categoryDTO){
         CategoryDTO response = categoryService.createNewCategory(categoryDTO);
         return ResponseEntity.ok(response);
     }
 
     //Update Existing Category
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO){
-        return new ResponseEntity<>(
-                "Category Updated Successfully",
-                HttpStatus.OK
-        );
+    public ResponseEntity<CategoryDTO> updateCategory(@Valid @PathVariable Long id, @RequestBody CategoryDTO categoryDTO){
+        CategoryDTO response = categoryService.updateCategory(id,categoryDTO);
+        return ResponseEntity.ok(response);
     }
 
     //Delete Category
