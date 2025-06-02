@@ -7,14 +7,11 @@ import com.kritica.payload.CategoryResponse;
 import com.kritica.repository.CategoryRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.hibernate.StaleObjectStateException;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import javax.xml.catalog.Catalog;
 import java.util.List;
 
 @Service

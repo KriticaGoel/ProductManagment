@@ -1,6 +1,5 @@
 package com.kritica.controller;
 
-import com.kritica.exception.APIException;
 import com.kritica.payload.CategoryDTO;
 import com.kritica.payload.CategoryResponse;
 import com.kritica.service.CategoryService;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/admin/category")
