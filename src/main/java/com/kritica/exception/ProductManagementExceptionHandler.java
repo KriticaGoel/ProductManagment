@@ -7,6 +7,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +40,12 @@ public class ProductManagementExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> dataIntegrityViolationException(DataIntegrityViolationException e){
         String message = e.getCause().getCause().getMessage();
+        return ResponseEntity.badRequest().body(message);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<String> methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e){
+        String message = e.getMessage();
         return ResponseEntity.badRequest().body(message);
     }
 }

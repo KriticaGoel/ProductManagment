@@ -13,7 +13,7 @@ public interface CategoryService {
     CategoryResponse getAllCategories();
     CategoryDTO createNewCategory(@Valid CategoryDTO categoryDTO);
     CategoryDTO updateCategory(Long id, CategoryDTO categoryDTO);
-    String deleteCategory(Long id);
+    CategoryDTO deleteCategory(Long id);
     CategoryResponse getCategoryByName(String name);
     CategoryResponse getCategoryById(Long id);
 

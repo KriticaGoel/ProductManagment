@@ -14,6 +14,7 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.xml.catalog.Catalog;
 import java.util.List;
 
 @Service
@@ -111,9 +112,17 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public String deleteCategory(Long id) {
-
-        return null;
+    public CategoryDTO deleteCategory(Long id) {
+        if(id==null){
+            throw new APIException("Category id cannot be null");
+        }
+        try{
+            Category category= categoryRepository.findById(id).orElseThrow(()->new APIException("Category with id "+id+" not found"));
+            categoryRepository.deleteById(id);
+            return modelMapper.map(category,CategoryDTO.class);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

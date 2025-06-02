@@ -46,8 +46,9 @@ public class CategoryController {
 
     //Delete Category
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable Long id){
-    return new ResponseEntity<>("Category deleted successfully",HttpStatus.OK);
+    public ResponseEntity<CategoryDTO> deleteCategory(@PathVariable Long id){
+        CategoryDTO response = categoryService.deleteCategory(id);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
     //get Category by name
     @GetMapping("/name/{name}")
