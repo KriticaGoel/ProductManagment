@@ -3,11 +3,17 @@ package com.kritica.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Date;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "category",
         uniqueConstraints = {
@@ -31,6 +37,10 @@ public class Category {
     @Size(max=150, message="Description must contain at most 150 character")
     @Column(name = "description")
     private String description;
+    @Column(name="parent_category")
+    @Size(max=150 , message = "Parent category must contain at most 150 character")
+    private String parentCategory;
+
     @Column(name = "image_url")
     private String imageUrl;
     @Column(name = "image_alt")
@@ -52,91 +62,4 @@ public class Category {
     @Column(name = "updated_at", nullable = false)
     private Date updatedAt;
 
-
-    public Category() {
-    }
-
-    public Category(Long id, String name, String description, String imageUrl, String imageAlt, String create_by, String update_by, Date createdAt, Date updatedAt) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.imageUrl = imageUrl;
-        this.imageAlt = imageAlt;
-        this.create_by = create_by;
-        this.update_by = update_by;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getImageAlt() {
-        return imageAlt;
-    }
-
-    public void setImageAlt(String imageAlt) {
-        this.imageAlt = imageAlt;
-    }
-
-    public String getCreate_by() {
-        return create_by;
-    }
-
-    public void setCreate_by(String create_by) {
-        this.create_by = create_by;
-    }
-
-    public String getUpdate_by() {
-        return update_by;
-    }
-
-    public void setUpdate_by(String update_by) {
-        this.update_by = update_by;
-    }
 }
