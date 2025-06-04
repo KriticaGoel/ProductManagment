@@ -1,5 +1,6 @@
 package com.kritica.controller;
 
+import com.kritica.config.AppConstants;
 import com.kritica.payload.CategoryDTO;
 import com.kritica.payload.CategoryResponse;
 import com.kritica.service.CategoryService;
@@ -20,13 +21,16 @@ public class CategoryController {
     }
     //Get all Category
     @GetMapping("/")
-    public ResponseEntity<CategoryResponse> getAllCategories(){
-       CategoryResponse response= categoryService.getAllCategories();
+    public ResponseEntity<CategoryResponse> getAllCategories(
+            @RequestParam(required = false,defaultValue = AppConstants.PAGE_NUMBER, name="pageNumber") Integer pageNumber,
+            @RequestParam(required = false,defaultValue = AppConstants.PAGE_SIZE,name="pageSize") Integer pageSize) {
+       CategoryResponse response= categoryService.getAllCategories(pageNumber,pageSize);
        if(response.getCategories().isEmpty()){
            return ResponseEntity.noContent().build();
        }
         return ResponseEntity.ok(response);
     }
+
     //Create a new Category
     //the validation will be triggered when the DTO is received by the controller ( on controller parameter) `@Valid`
     @PostMapping("/")

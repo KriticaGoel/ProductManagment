@@ -9,6 +9,9 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -28,19 +31,39 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponse getAllCategories() {
-        List<Category> categories=categoryRepository.findAll();
-
+    public CategoryResponse getAllCategories(Integer pageNumber, Integer pageSize) {
+        List<Category> categories = null;
+        Page<Category> categoryPage=null;
+        System.out.println("^^^^^^^^^^^^^^^^^Page Number" + pageNumber);
+        if(pageNumber !=null) {
+            Pageable pageDetails = PageRequest.of(pageNumber, pageSize);
+            categoryPage = categoryRepository.findAll(pageDetails);
+            categories = categoryPage.getContent();
+        }else {
+              categories=categoryRepository.findAll();
+        }
        // modelMapper
         List<CategoryDTO> categoryDTOS = categories.stream()
                 .map(category -> modelMapper.map(category, CategoryDTO.class)).toList();
 
-        CategoryResponse categoryResponse = new CategoryResponse();
-        categoryResponse.setCategories(categoryDTOS);
+        CategoryResponse categoryResponse = getCategoryResponse(categoryDTOS, categoryPage);
 
         return categoryResponse;
 
     }
+
+    private static CategoryResponse getCategoryResponse(List<CategoryDTO> categoryDTOS, Page<Category> categoryPage) {
+        CategoryResponse categoryResponse = new CategoryResponse();
+        categoryResponse.setCategories(categoryDTOS);
+        categoryResponse.setPageNumber(categoryPage.getNumber());
+        categoryResponse.setPageSize(categoryPage.getSize());
+        categoryResponse.setTotalPages(categoryPage.getTotalPages());
+        categoryResponse.setTotalElements(categoryPage.getTotalElements());
+        categoryResponse.setFirstPage(categoryPage.isFirst());
+        categoryResponse.setLastPage(categoryPage.isLast());
+        return categoryResponse;
+    }
+
 
     @Override
     public CategoryDTO createNewCategory(@Valid CategoryDTO categoryDTO) {
@@ -140,4 +163,22 @@ public class CategoryServiceImpl implements CategoryService {
         Category category= categoryRepository.findById(id).orElseThrow(()->new APIException("Category with id "+id+" not found"));
         return modelMapper.map(category,CategoryDTO.class);
     }
+
+//    @Override
+//    // Add search functionality
+//    public List<CategoryDTO> searchCategories(String keyword) {
+//        return categoryRepository.findByNameContainingIgnoreCase(keyword).stream()
+//                .map(category -> modelMapper.map(category, CategoryDTO.class))
+//                .collect(Collectors.toList());
+//    }
+//
+//    // Add bulk operations
+//    @Transactional
+//    public List<CategoryDTO> createCategories(List<CategoryDTO> categories) {
+//        return categories.stream()
+//                .map(this::createCategory)
+//                .collect(Collectors.toList());
+//    }
+
+
 }
