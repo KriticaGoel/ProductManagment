@@ -39,6 +39,7 @@ public class CategoryController {
     public ResponseEntity<CategoryDTO> createNewCategory(@Valid @RequestBody CategoryDTO categoryDTO){
         CategoryDTO response = categoryService.createNewCategory(categoryDTO);
         return ResponseEntity.ok(response);
+
     }
 
     //Update Existing Category
