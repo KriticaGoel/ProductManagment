@@ -18,6 +18,7 @@ public class CategoryDTO {
     @Size(min=3, message="Category must contain at least 3 character")
     private String name;
     private String description;
+    private String parentCategory;
     private String imageUrl;
     private String imageAlt;
     private String create_by;
