@@ -32,21 +32,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponse getAllCategories(Integer pageNumber, Integer pageSize) {
-        List<Category> categories = null;
-        Page<Category> categoryPage=null;
-        System.out.println("^^^^^^^^^^^^^^^^^Page Number" + pageNumber);
-        if(pageNumber !=null) {
-            Pageable pageDetails = PageRequest.of(pageNumber, pageSize);
-            categoryPage = categoryRepository.findAll(pageDetails);
-            categories = categoryPage.getContent();
-        }else {
-              categories=categoryRepository.findAll();
-        }
+        Pageable pageDetails = PageRequest.of(pageNumber, pageSize);
+        Page<Category> categories = categoryRepository.findAll(pageDetails);
+
        // modelMapper
         List<CategoryDTO> categoryDTOS = categories.stream()
                 .map(category -> modelMapper.map(category, CategoryDTO.class)).toList();
 
-        CategoryResponse categoryResponse = getCategoryResponse(categoryDTOS, categoryPage);
+        CategoryResponse categoryResponse = getCategoryResponse(categoryDTOS, categories);
 
         return categoryResponse;
 
