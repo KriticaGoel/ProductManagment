@@ -20,7 +20,7 @@ import java.sql.Date;
             @UniqueConstraint(columnNames = {"name"})},
         indexes ={
             @Index(name = "idx_category_name", columnList = "name"),
-                @Index(name = "idx_category_created_date", columnList = "created_date")}
+                @Index(name = "idx_category_created_at", columnList = "created_at")}
         )
 
 public class Category {
