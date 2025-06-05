@@ -28,4 +28,5 @@ public class Profiles {
     @OneToOne
     @JoinColumn(name = "users_id")
     private Users user;
+
 }

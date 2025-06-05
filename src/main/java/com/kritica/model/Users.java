@@ -19,6 +19,7 @@ public class Users {
     @Column(name = "password", unique = true, nullable = false, length = 100)
     private String password;
 
+
     //to make bidirection -> we want to access profile class data usimg user class
     //and we dont want any foreign key of profile in user
     //use - Mapped by and use variable name of profile
