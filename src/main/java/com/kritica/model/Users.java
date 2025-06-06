@@ -1,5 +1,6 @@
 package com.kritica.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,11 +29,14 @@ public class Users {
     //and we dont want any foreign key of profile in user
     //use - Mapped by and use variable name of profile
     @OneToOne(mappedBy = "user")
+    @JsonIgnore
     private Profiles profile;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "users")
     private List<Orders> orders;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "usersSet")
     private Set<Products> productsSet = new HashSet<>();
 
