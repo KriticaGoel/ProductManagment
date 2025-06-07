@@ -26,7 +26,7 @@ public class Profiles {
     @Column(name = "contact_number", unique = true, nullable = false, length = 15)
     private String contactNumber;
 
-    @JsonBackReference("user-profiles")
+    @JsonBackReference("user-profiles") // Wrong: Owning side should use @JsonManagedReference
     @OneToOne
     @JoinColumn(name = "users_id")
     private Users user;

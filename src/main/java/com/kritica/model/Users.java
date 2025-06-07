@@ -35,7 +35,7 @@ public class Users {
     private Profiles profile;
 
     //  @JsonIgnore
-    @JsonManagedReference("user-orders")
+    @JsonManagedReference("user-orders") // Wrong: Non-owning side should use @JsonBackReference
     @OneToMany(mappedBy = "users")
     private List<Orders> orders;
 
