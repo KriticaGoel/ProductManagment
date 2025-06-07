@@ -1,6 +1,7 @@
 package com.kritica.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,11 +29,13 @@ public class Users {
     //to make bidirection -> we want to access profile class data usimg user class
     //and we dont want any foreign key of profile in user
     //use - Mapped by and use variable name of profile
+    @JsonManagedReference("user-profiles")
     @OneToOne(mappedBy = "user")
-    @JsonIgnore
+    //  @JsonIgnore
     private Profiles profile;
 
-    @JsonIgnore
+    //  @JsonIgnore
+    @JsonManagedReference("user-orders")
     @OneToMany(mappedBy = "users")
     private List<Orders> orders;
 

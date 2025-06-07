@@ -1,5 +1,6 @@
 package com.kritica.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class Profiles {
     @Column(name = "contact_number", unique = true, nullable = false, length = 15)
     private String contactNumber;
 
+    @JsonBackReference("user-profiles")
     @OneToOne
     @JoinColumn(name = "users_id")
     private Users user;
